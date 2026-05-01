@@ -2,6 +2,11 @@
 
 All notable changes to **Claude Account Switcher** are documented here.
 
+## [0.1.1] — 2026-05-01
+
+### Changed
+- Removed stale icon placeholder note from README
+
 ## [0.1.0] — 2026-05-01
 
 ### Added

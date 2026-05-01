@@ -67,12 +67,6 @@ The Claude.ai Pro mode uses Claude's **unofficial internal web API** via your br
 
 ---
 
-## Icon
-
-Place your `icon.png` (128×128 px minimum) at `media/icon.png` before publishing.
-
----
-
 ## License
 
 MIT
