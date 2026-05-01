@@ -2,7 +2,7 @@
   "name": "claude-account-switcher",
   "displayName": "Claude Account Switcher",
   "description": "Switch between Claude.ai Pro (session token) and Anthropic API key mode instantly from the VS Code status bar.",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "publisher": "zayaan-dev",
   "icon": "media/icon.png",
   "license": "MIT",
@@ -104,7 +104,20 @@
             "Use Claude.ai Pro session token"
           ],
           "default": "api",
-          "description": "Default authentication mode on startup."
+          "description": "Default authentication mode on startup (used only when no mode has been saved yet)."
+        },
+        "claudeSwitcher.currentMode": {
+          "type": "string",
+          "enum": [
+            "api",
+            "pro"
+          ],
+          "enumDescriptions": [
+            "Use Anthropic API key",
+            "Use Claude.ai Pro session token"
+          ],
+          "default": "api",
+          "description": "Last active mode — updated automatically when you switch modes."
         },
         "claudeSwitcher.model": {
           "type": "string",

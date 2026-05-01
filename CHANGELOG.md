@@ -2,6 +2,12 @@
 
 All notable changes to **Claude Account Switcher** are documented here.
 
+## [0.1.2] — 2026-05-01
+
+### Fixed
+- Register `claudeSwitcher.currentMode` in schema to stop the "not a registered configuration" error
+- Active mode now persists across VS Code restarts (written to global settings on every switch)
+
 ## [0.1.1] — 2026-05-01
 
 ### Changed

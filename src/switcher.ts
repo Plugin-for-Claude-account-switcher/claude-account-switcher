@@ -15,7 +15,9 @@ export class ModeSwitcher {
 
     constructor(context: vscode.ExtensionContext) {
         const cfg = vscode.workspace.getConfiguration('claudeSwitcher');
-        this.currentMode = cfg.get<Mode>('defaultMode', 'api');
+        // currentMode is persisted on every switch; fall back to defaultMode on first run
+        this.currentMode =
+            cfg.get<Mode>('currentMode') ?? cfg.get<Mode>('defaultMode', 'api');
 
         this.statusBar = vscode.window.createStatusBarItem(
             vscode.StatusBarAlignment.Right,
@@ -61,6 +63,12 @@ export class ModeSwitcher {
         this.currentMode = picked.mode;
         this.refresh();
         this.emitter.fire(this.currentMode);
+
+        // Persist so the mode survives VS Code restarts
+        vscode.workspace
+            .getConfiguration('claudeSwitcher')
+            .update('currentMode', this.currentMode, vscode.ConfigurationTarget.Global)
+            .then(undefined, () => {}); // silently ignore if settings are read-only
 
         vscode.window.setStatusBarMessage(
             `Claude switched to ${this.currentMode === 'api' ? 'API Key' : 'Pro (Session Token)'} mode`,
