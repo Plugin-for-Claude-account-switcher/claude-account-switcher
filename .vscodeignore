@@ -9,3 +9,4 @@ gen-icon.js
 tsconfig.json
 **/*.ts
 dist/**/*.map
+jest.config.js

@@ -3,10 +3,20 @@ import { ModeSwitcher } from './switcher';
 import { ApiClient } from './apiClient';
 import { ChatPanel } from './chatPanel';
 import { CredentialManager } from './credentialManager';
+import { EnvManager } from './envManager';
+import { TerminalManager } from './terminalManager';
 
 export function activate(context: vscode.ExtensionContext): void {
-    const credentials = new CredentialManager(context.secrets);
-    const switcher = new ModeSwitcher(context);
+    const credentials      = new CredentialManager(context.secrets);
+    const envManager       = new EnvManager();
+    const terminalManager  = new TerminalManager();
+
+    const switcher = new ModeSwitcher(
+        context,
+        envManager,
+        terminalManager,
+        () => credentials.getApiKey()
+    );
 
     const apiClient = new ApiClient(
         () => switcher.getMode(),
@@ -38,6 +48,14 @@ export function activate(context: vscode.ExtensionContext): void {
 
         vscode.commands.registerCommand('claudeSwitcher.openChat', () =>
             chatProvider.openChat()
+        ),
+
+        vscode.commands.registerCommand('claudeSwitcher.showStatus', () =>
+            switcher.showStatus()
+        ),
+
+        vscode.commands.registerCommand('claudeSwitcher.openTerminal', () =>
+            terminalManager.openClaudeTerminal()
         ),
 
         vscode.commands.registerCommand('claudeSwitcher.clearCredentials', async () => {

@@ -56,6 +56,16 @@
         "command": "claudeSwitcher.clearCredentials",
         "title": "Claude: Clear Credentials",
         "icon": "$(trash)"
+      },
+      {
+        "command": "claudeSwitcher.showStatus",
+        "title": "Claude: Show Auth Status",
+        "icon": "$(info)"
+      },
+      {
+        "command": "claudeSwitcher.openTerminal",
+        "title": "Claude: Open Claude Code Terminal",
+        "icon": "$(terminal)"
       }
     ],
     "viewsContainers": {
@@ -85,6 +95,16 @@
         },
         {
           "command": "claudeSwitcher.configure",
+          "when": "view == claudeSwitcher.chatView",
+          "group": "navigation"
+        },
+        {
+          "command": "claudeSwitcher.showStatus",
+          "when": "view == claudeSwitcher.chatView",
+          "group": "navigation"
+        },
+        {
+          "command": "claudeSwitcher.openTerminal",
           "when": "view == claudeSwitcher.chatView",
           "group": "navigation"
         }
@@ -122,12 +142,12 @@
         "claudeSwitcher.model": {
           "type": "string",
           "enum": [
-            "claude-opus-4-5",
+            "claude-opus-4-7",
             "claude-sonnet-4-6",
             "claude-haiku-4-5-20251001"
           ],
           "enumDescriptions": [
-            "Claude Opus 4.5 — most capable",
+            "Claude Opus 4.7 — most capable",
             "Claude Sonnet 4.6 — balanced",
             "Claude Haiku 4.5 — fastest"
           ],
@@ -140,6 +160,21 @@
           "minimum": 256,
           "maximum": 8192,
           "description": "Maximum tokens for each response (API mode only)."
+        },
+        "claudeSwitcher.manageClaudeCodeEnv": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically update claude-code.environmentVariables with ANTHROPIC_API_KEY when switching modes. This ensures new integrated terminals inherit the correct key without manual setup."
+        },
+        "claudeSwitcher.autoLogout": {
+          "type": "boolean",
+          "default": true,
+          "description": "Send /logout to Claude Code terminals automatically when switching modes, so the new credentials take effect on the next /login."
+        },
+        "claudeSwitcher.showLoginReminder": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show a reminder to run /login after switching modes, with a button to open a ready Claude Code terminal."
         }
       }
     }
@@ -148,6 +183,7 @@
     "vscode:prepublish": "node esbuild.js --production",
     "build": "node esbuild.js",
     "watch": "node esbuild.js --watch",
+    "test": "jest",
     "typecheck": "tsc --noEmit",
     "package": "vsce package",
     "publish": "vsce publish"
@@ -156,10 +192,13 @@
     "@anthropic-ai/sdk": "^0.27.0"
   },
   "devDependencies": {
+    "@types/jest": "^30.0.0",
     "@types/node": "^20.0.0",
     "@types/vscode": "^1.85.0",
     "@vscode/vsce": "^3.0.0",
     "esbuild": "^0.21.0",
+    "jest": "^30.3.0",
+    "ts-jest": "^29.4.9",
     "typescript": "^5.4.0"
   }
 }
